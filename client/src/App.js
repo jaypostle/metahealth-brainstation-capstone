@@ -1,19 +1,40 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Charts from "./Pages/Charts/Charts";
+
 function App() {
-  const [data, setData] = useState();
+  const [recipeId, setRecipeId] = useState("716429");
+  const [searchString, setSearchString] = useState(
+    "&includeIngredients=shrimp"
+  );
+  const [singleRecipeData, setSingleRecipeData] = useState();
+  const [recipesSearchResults, setRecipesSearchResults] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    fetchSingleRecipeData(recipeId);
+    fetchRecipesSearchData(searchString);
   }, []);
 
-  const fetchData = async () => {
+  const apiKey = "92319c9df23f46b19c428982982f8055";
+  const baseURL = "https://api.spoonacular.com/recipes";
+
+  const fetchSingleRecipeData = async (recipeId) => {
     try {
-      const response = await axios.get(
-        "https://api.spoonacular.com/recipes/716429/information?apiKey=92319c9df23f46b19c428982982f8055"
+      const { data: recipe } = await axios.get(
+        `${baseURL}/${recipeId}/information?apiKey=${apiKey}&includeNutrition=true`
       );
-      console.log(response);
-      console.log(response.data);
+      console.log(recipe);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const fetchRecipesSearchData = async (searchString) => {
+    // searchString looks like &includeIngredients=shrimp&diet=paleo|gluten free
+    try {
+      const { data: searchResults } = await axios.get(
+        `${baseURL}/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true${searchString}`
+      );
+      console.log(searchResults);
     } catch (err) {
       console.log(err);
     }
@@ -22,6 +43,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header"></header>
+      {/* <Charts /> */}
     </div>
   );
 }
