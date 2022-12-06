@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import RecipeWall from "../../Components/RecipeWall/RecipeWall";
+import data from "../../data/data.json";
 
 function Discover() {
   const [recipeId, setRecipeId] = useState("716429");
@@ -14,7 +15,9 @@ function Discover() {
     // fetchRecipesSearchData(searchString);
   }, [searchString]);
 
-  const apiKey = "92319c9df23f46b19c428982982f8055";
+  // const apiKey = "92319c9df23f46b19c428982982f8055";
+  const apiKey = "2befc7f07a8544daa65331b2147b8673";
+
   const baseURL = "https://api.spoonacular.com/recipes";
 
   const fetchSingleRecipeData = async (recipeId) => {
@@ -28,11 +31,12 @@ function Discover() {
       console.log(err);
     }
   };
+
   const fetchRecipesSearchData = async (searchString) => {
     // searchString looks like &includeIngredients=shrimp&diet=paleo|gluten free
     try {
       const { data: searchResults } = await axios.get(
-        `${baseURL}/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true${searchString}`
+        `${baseURL}/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&addRecipeInformation=true${searchString}`
       );
       console.log(searchResults);
       setRecipesSearchResults(searchResults);
@@ -46,7 +50,7 @@ function Discover() {
   // */
 
   const [discoverParams, setDiscoverParams] = useState({
-    mealType: "dinner",
+    mealType: "main course",
     search: null,
     fridgeSearch: null,
     discoverFridge: [],
@@ -67,7 +71,7 @@ function Discover() {
 
   const handleChange = (e) => {
     setDiscoverParams({ ...discoverParams, [e.target.name]: e.target.value });
-    console.log(e.target.name, ":", e.target.value);
+    console.log(e.target.type, e.target.name, ":", e.target.value);
   };
 
   const handleCheckBoxChange = (e) => {
@@ -114,23 +118,49 @@ function Discover() {
       searchParamsArray.push(query);
     }
 
-    // allergens = intolerances
-    let intolerances; 
-    // TURN THIS INTO ONE FUNCTION?
-    if (discoverParams.allergens.length > 0) {
-      if (discoverParams.allergens.length === 1) {
-        intolerances = `intolerances=${discoverParams.allergens[0]}`;
+    const arrayBuilder = (queryTypeInput, objKey) => {
+      let queryType = queryTypeInput;
+      if (discoverParams[objKey].length === 1) {
+        queryType = `${queryType}=${discoverParams[objKey][0]}`;
       } else {
-        intolerances = `intolerances=${discoverParams.allergens.join("|")}`;
+        queryType = `${queryType}=${discoverParams[objKey].join("|")}`;
       }
-      searchParamsArray.push(intolerances);
-    }
-    // dietaryPreferences = diet
-    // discoverFridge = includeIngredients
-    // fridgeSearch // push this to the discover fridge array
+      return queryType;
+    };
 
-    // turn that into a searchString
-    console.log(searchParamsArray);
+    // allergens = intolerances
+
+    if (discoverParams.allergens.length > 0) {
+      const newQuery = arrayBuilder("intolerances", "allergens");
+      searchParamsArray.push(newQuery);
+    }
+
+    // dietaryPreferences = diet
+    if (discoverParams.dietaryPreferences.length > 0) {
+      searchParamsArray.push(arrayBuilder("diet", "dietaryPreferences"));
+    }
+
+    // discoverFridge = includeIngredients
+    let discoverFridgeQuery = "";
+    if (discoverParams.discoverFridge.length > 0) {
+      if (discoverParams.fridgeSearch !== null) {
+        discoverFridgeQuery = `${arrayBuilder(
+          "includeIngredients",
+          "discoverFridge"
+        )}|${discoverParams.fridgeSearch}`;
+      } else {
+        discoverFridgeQuery = arrayBuilder(
+          "includeIngredients",
+          "discoverFridge"
+        );
+      }
+      searchParamsArray.push(discoverFridgeQuery);
+    } else {
+      if (discoverParams.fridgeSearch !== null) {
+        discoverFridgeQuery = `includeIngredients=${discoverParams.fridgeSearch}`;
+      }
+      searchParamsArray.push(discoverFridgeQuery);
+    }
 
     const newSearchString = searchParamsArray
       .map((param) => {
@@ -143,13 +173,10 @@ function Discover() {
     setSearchString(newSearchString);
   };
 
-  //  how to design custom checkboxes https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox
-
   return (
     <div>
       <h1>Discover Recipes</h1>
 
-      {/* {recipe && recipe.aggregateLikes} */}
       <form
         className="discover-recipes-form"
         ref={formRef}
@@ -197,7 +224,7 @@ function Discover() {
           Search
           <input
             name="search"
-            type="text"
+            type="search"
             className="discover__search"
             onChange={(e) => {
               handleChange(e);
@@ -325,7 +352,10 @@ function Discover() {
         <button type="submit">Discover Recipes</button>
       </form>
 
-      <RecipeWall recipes="placeholder" />
+      <RecipeWall
+        // recipes={recipesSearchResults}
+        recipes={data.results}
+      />
     </div>
   );
 }
