@@ -13,6 +13,7 @@ function Recipe({ updateMealPlan }) {
   useEffect(() => {
     // getIndividualItemAxios(itemId);
     // console.log(recipeId);
+    setSummary(recipe.summary);
   }, [recipeId]);
 
   const recipe = singleRecipeData;
@@ -32,7 +33,7 @@ function Recipe({ updateMealPlan }) {
   //   return { __html: recipe.summary };
   // };
 
-  const [summary, setSummary] = useState(recipe.summary);
+  const [summary, setSummary] = useState(null);
 
   return (
     <div>
