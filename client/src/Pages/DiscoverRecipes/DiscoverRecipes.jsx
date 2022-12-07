@@ -59,8 +59,8 @@ function Discover() {
   });
 
   useEffect(() => {
-    console.log(discoverParams);
-    console.log(searchString);
+    // console.log(discoverParams);
+    // console.log(searchString);
   }, [discoverParams, searchString]);
 
   //**

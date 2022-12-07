@@ -1,41 +1,14 @@
 import React from "react";
-
-
+import { Link } from "react-router-dom";
+import RecipeCard from "../../Components/RecipeCard/RecipeCard";
 
 function RecipeWall({ recipes }) {
-
-  console.log(recipes)
   return (
     <section className="recipe-wall">
       RecipeWall
       {recipes &&
         recipes.map((recipe) => {
-          return (
-            <article key={recipe.id}>
-              {recipe.title}
-              {/* time, photo */}
-              {recipe.time}
-
-              {/* labels */}
-              <div>
-                Diets
-                {recipe.diets.map((diet) => {
-                  <span>{diet}</span>;
-                })}
-              </div>
-
-              {/* show allergens */}
-              <div>
-                Allergens
-                {recipe.vegetarian && "vegetarian"}
-                {recipe.vegan && "vegan"}
-                {recipe.glutenFree && "gluten free"}
-                {recipe.dariyFree && "dairy free"}
-              </div>
-
-              <img src={recipe.image} alt={recipe.title + "image"} />
-            </article>
-          );
+          return <RecipeCard key={recipe.id} recipe={recipe} />;
         })}
     </section>
   );
