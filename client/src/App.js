@@ -6,7 +6,7 @@ import Header from "./Components/Header/Header";
 import Recipe from "./Pages/Recipe/Recipe";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
+import axios from "axios";
 import { MealPlanProvider } from "./Context/MealPlanContext";
 
 function App() {

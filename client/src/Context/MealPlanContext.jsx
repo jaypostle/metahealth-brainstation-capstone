@@ -38,7 +38,7 @@ export function MealPlanProvider({ children }) {
   }
 
   useEffect(() => {
-    console.log(mealPlan);
+    // console.log(mealPlan);
   }, [mealPlan]);
 
   return (

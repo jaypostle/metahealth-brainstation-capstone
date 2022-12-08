@@ -7,39 +7,33 @@ import data from "../../data/data.json";
 function Discover() {
   const [recipeId, setRecipeId] = useState("716429");
   const [searchString, setSearchString] = useState("");
-  const [singleRecipeData, setSingleRecipeData] = useState();
-  const [recipesSearchResults, setRecipesSearchResults] = useState([]);
+  const [discoverRecipes, setDiscoverRecipes] = useState([]);
+  const [failureMessage, setFailureMessage] = useState("");
 
   useEffect(() => {
-    // fetchSingleRecipeData(recipeId);
-    // fetchRecipesSearchData(searchString);
+    console.log("search String after submit", searchString);
+    console.log("discover params after submit", discoverParams);
+    fetchRecipesSearchData(searchString);
   }, [searchString]);
 
-  // const apiKey = "92319c9df23f46b19c428982982f8055";
-  const apiKey = "2befc7f07a8544daa65331b2147b8673";
-
-  const baseURL = "https://api.spoonacular.com/recipes";
-
-  const fetchSingleRecipeData = async (recipeId) => {
+  const fetchRecipesSearchData = async (queryString) => {
     try {
-      const { data: recipe } = await axios.get(
-        `${baseURL}/${recipeId}/information?apiKey=${apiKey}&includeNutrition=true`
+      const queryObj = {
+        query: queryString,
+      };
+      const response = await axios.post(
+        `http://localhost:8080/api/recipes/discover`,
+        queryObj
       );
-      console.log(recipe);
-      setSingleRecipeData(recipe);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const fetchRecipesSearchData = async (searchString) => {
-    // searchString looks like &includeIngredients=shrimp&diet=paleo|gluten free
-    try {
-      const { data: searchResults } = await axios.get(
-        `${baseURL}/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&addRecipeInformation=true${searchString}`
-      );
-      console.log(searchResults);
-      setRecipesSearchResults(searchResults);
+      console.log(response.data);
+      if (response.data.results.length > 0) {
+        setDiscoverRecipes(response.data.results);
+      } else {
+        setDiscoverRecipes([]);
+        setFailureMessage(
+          "Query contained no results. Please try another set of parameters."
+        );
+      }
     } catch (err) {
       console.log(err);
     }
@@ -57,11 +51,6 @@ function Discover() {
     dietaryPreferences: [],
     allergens: [],
   });
-
-  useEffect(() => {
-    // console.log(discoverParams);
-    // console.log(searchString);
-  }, [discoverParams, searchString]);
 
   //**
   // Form References
@@ -123,7 +112,8 @@ function Discover() {
       if (discoverParams[objKey].length === 1) {
         queryType = `${queryType}=${discoverParams[objKey][0]}`;
       } else {
-        queryType = `${queryType}=${discoverParams[objKey].join("|")}`;
+        // Changing the join value to a | will make them OR statements , is AND
+        queryType = `${queryType}=${discoverParams[objKey].join(",")}`;
       }
       return queryType;
     };
@@ -260,7 +250,7 @@ function Discover() {
                 name="discoverFridge"
                 type="checkbox"
                 className="discover-fridge"
-                value="onions"
+                value="onion"
                 onClick={handleCheckBoxChange}
               />
             </label>
@@ -352,10 +342,14 @@ function Discover() {
         <button type="submit">Discover Recipes</button>
       </form>
 
-      <RecipeWall
-        // recipes={recipesSearchResults}
-        recipes={data.results}
-      />
+      {failureMessage && <h2>{failureMessage}</h2>}
+
+      {discoverRecipes && (
+        <RecipeWall
+          // recipes={recipesSearchResults}
+          recipes={discoverRecipes}
+        />
+      )}
     </div>
   );
 }
