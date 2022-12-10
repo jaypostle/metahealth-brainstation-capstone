@@ -5,8 +5,9 @@ const cors = require("cors");
 const app = express();
 
 // const of routes
-const recipeRouter = require("./routes/recipes");
-
+const recipeRouter = require("./routes/recipesRoute");
+const mealPlansRouter = require("./routes/mealplansRoute");
+const nutritionDataRouter = require("./routes/nutritiondataRoute");
 /**
  * Middlware
  */
@@ -17,11 +18,13 @@ app.use(express.json());
 // ** Routes **//
 
 app.use("/api/recipes", recipeRouter);
-
-
+app.use("/api/mealplans", mealPlansRouter);
+app.use("/api/nutritiondata", nutritionDataRouter);
 
 const PORT = process.env.PORT || 5500;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT} 🚀`);
 });
+
+
