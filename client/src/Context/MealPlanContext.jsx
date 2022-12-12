@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 
 const MealPlanContext = React.createContext();
 const MealPlanUpdateContext = React.createContext();
+const MealPlanClearContext = React.createContext();
 
 export function useMealPlan() {
   return useContext(MealPlanContext);
@@ -10,6 +11,11 @@ export function useMealPlan() {
 export function useMealPlanUpdate() {
   return useContext(MealPlanUpdateContext);
 }
+
+export function useMealPlanClear() {
+  return useContext(MealPlanClearContext);
+}
+
 export function MealPlanProvider({ children }) {
   const [mealPlan, setMealPlan] = useState([]);
 
@@ -37,6 +43,12 @@ export function MealPlanProvider({ children }) {
     }
   }
 
+  function clearMealPlan() {
+    console.log("clear meal plan ran");
+    localStorage.clear();
+    setMealPlan([]);
+  }
+
   useEffect(() => {
     // console.log(mealPlan);
   }, [mealPlan]);
@@ -44,7 +56,9 @@ export function MealPlanProvider({ children }) {
   return (
     <MealPlanContext.Provider value={mealPlan}>
       <MealPlanUpdateContext.Provider value={toggleMealPlan}>
-        {children}
+        <MealPlanClearContext.Provider value={clearMealPlan}>
+          {children}
+        </MealPlanClearContext.Provider>
       </MealPlanUpdateContext.Provider>
     </MealPlanContext.Provider>
   );

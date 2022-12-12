@@ -10,6 +10,8 @@ import axios from "axios";
 import { MealPlanProvider } from "./Context/MealPlanContext";
 
 function App() {
+  
+
   return (
     <MealPlanProvider>
       <BrowserRouter>
