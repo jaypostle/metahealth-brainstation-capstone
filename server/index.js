@@ -8,6 +8,8 @@ const app = express();
 const recipeRouter = require("./routes/recipesRoute");
 const mealPlansRouter = require("./routes/mealplansRoute");
 const nutritionDataRouter = require("./routes/nutritiondataRoute");
+const journalEntryRouter = require("./routes/journalEntryRoute");
+
 /**
  * Middlware
  */
@@ -20,11 +22,10 @@ app.use(express.json());
 app.use("/api/recipes", recipeRouter);
 app.use("/api/mealplans", mealPlansRouter);
 app.use("/api/nutritiondata", nutritionDataRouter);
+app.use("/api/journalentries", journalEntryRouter);
 
 const PORT = process.env.PORT || 5500;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT} 🚀`);
 });
-
-

@@ -2,7 +2,7 @@ const knex = require("knex")(require("../knexfile"));
 const { v4: uuidv4 } = require("uuid");
 
 exports.index = (_req, res) => {
-  knex("mealplans")
+  knex("journalentries")
     .then((data) => {
       res.status(200).json(data);
     })
@@ -12,10 +12,10 @@ exports.index = (_req, res) => {
 };
 
 // All Meal Plans by User
-exports.allMealplansByUser = (req, res) => {
-  knex("mealplans")
+exports.allJournalEntriesByUser = (req, res) => {
+  knex("journalentries")
     .where({ users_id: req.params.userId })
-    .orderBy("created_at", "desc")
+    .orderBy("created_at", "asc")
     .then((data) => {
       // If record is not found, respond with 404
       if (!data.length) {
@@ -37,25 +37,33 @@ exports.allMealplansByUser = (req, res) => {
 };
 
 // Post a meal plan by user
-exports.addMealPlan = (req, res) => {
+exports.addJournalEntry = (req, res) => {
   // Validate the request body for required data
-  if (!req.body.users_id || !req.body.meal_plan) {
+  if (
+    !req.body.users_id ||
+    !req.body.comment ||
+    !req.body.energy ||
+    !req.body.sleep ||
+    !req.body.mood
+  ) {
     return res
       .status(400)
       .send(
-        "Please make sure to provide a user id and meal plan field in a request"
+        "Please make sure to provide a user id, comment, energy, sleep, and mood field in a request"
       );
   }
 
-  const newMealplanId = uuidv4();
-  knex("mealplans")
-    .insert({ ...req.body, id: newMealplanId })
+  const newJournalEntryId = uuidv4();
+  knex("journalentries")
+    .insert({ ...req.body, id: newJournalEntryId })
     .then((_data) => {
-      knex("mealplans")
-        .where({ id: newMealplanId })
+      knex("journalentries")
+        .where({ id: newJournalEntryId })
         .then((data) => {
           res.status(201).json(data[0]);
         });
     })
-    .catch((err) => res.status(400).send(`Error creating meal plan: ${err}`));
+    .catch((err) =>
+      res.status(400).send(`Error creating journal entry: ${err}`)
+    );
 };
