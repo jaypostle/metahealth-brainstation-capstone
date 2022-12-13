@@ -18,6 +18,7 @@ exports.allNutritionByUserByType = (req, res) => {
       users_id: req.params.userId,
       nutrition_type: req.params.nutritionType,
     })
+    .orderBy("created_at", "asc")
     .then((data) => {
       // If record is not found, respond with 404
       if (!data.length) {
