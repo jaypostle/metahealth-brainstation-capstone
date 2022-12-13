@@ -109,11 +109,11 @@ function MealPlan() {
     console.log(nutritionDataPostObj);
 
     // Post a meal plan, return the mealplan Id
-    // postMealPlan(mealPlan.join(",")).then((res) => {
-    //   // post a nutritionData point with this mealPlanId newly created
-    //   console.log(res);
-    //   postNutritionDataPoint(res.id, "Iron", totalNutritionType("Iron"));
-    // });
+    postMealPlan(mealPlan.join(",")).then((res) => {
+      // post a nutritionData point with this mealPlanId newly created
+      // console.log(res);
+      postNutritionDataPoint(res.id, "Iron", totalNutritionType("Iron"));
+    });
 
     // sets Mealplan to null
     // sets mealplan recipes to null (this will happen automatically when you set mealplan to null)
