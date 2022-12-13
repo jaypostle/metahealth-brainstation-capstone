@@ -1,9 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import RecipeCard from "../../Components/RecipeCard/RecipeCard";
 
 function RecipeWall({ recipes }) {
-  // console.log(recipes);
+
   return (
     <section className="recipe-wall">
       Recipe Wall

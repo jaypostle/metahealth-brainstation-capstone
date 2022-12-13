@@ -14,6 +14,9 @@ function Header() {
           <Link to="/mealplan">Meal Plan</Link>
         </li>
         <li>
+          <Link to="/journal">Journal Entries</Link>
+        </li>
+        <li>
           <Link to="/nutritiondata">Nutrition Data</Link>
         </li>
       </ul>

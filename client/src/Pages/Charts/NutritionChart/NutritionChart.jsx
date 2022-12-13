@@ -19,12 +19,15 @@ function NutritionChart() {
       .year(moment(date).format("Y"))
       .week(moment(date).format("W"))
       .format("YYYY-MM-DD");
-
-    // console.log(createdDate);
     return createdDate;
+  };
 
-    // let momentDate = moment(date, "MMDDYYYY").isoWeek();
-    // console.log(momentDate);
+  const mySQLdateToWeek = (mySQLdateStamp) => {
+    let t = mySQLdateStamp.split(/[- : T .]/);
+    let date = new Date(Date.UTC(t[0], t[1] - 1, t[2], t[3], t[4], t[5]));
+    let momentDate = moment(date, "MMDDYYYY").isoWeek();
+    console.log(momentDate);
+    return momentDate;
   };
 
   // query nutrition schema for all points from a specific user
@@ -36,7 +39,12 @@ function NutritionChart() {
       console.log(response.data);
       setNutritionResponse(response.data);
       setNutritionData({
-        labels: response.data.map((data) => mySQLdateToJS(data.created_at)),
+        labels: response.data.map((data) => {
+          return `${mySQLdateToJS(data.created_at)} Week: ${mySQLdateToWeek(
+            data.created_at
+          )}`;
+          // mySQLdateToJS(data.created_at)
+        }),
         datasets: [
           {
             label: "Iron Count",
