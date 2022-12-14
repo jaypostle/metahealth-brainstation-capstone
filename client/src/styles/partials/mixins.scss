@@ -1,0 +1,16 @@
+@mixin display-flex(
+  $flexDirection: row,
+  $justifyContent: center,
+  $alignItems: center,
+  $gap: 1rem
+) {
+  display: flex;
+  flex-direction: $flexDirection;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+  gap: $gap;
+}
+
+// Then, you only need to specify the values that change when you include the mixin:
+
+// include display-flex($gap: 2rem);

@@ -133,6 +133,11 @@ function JournalEntries() {
       </section>
       <section>
         <h2>Write a Journal Entry</h2>
+        <p>
+          {isExistingEntryForCurrentMealPlan
+            ? "A Journal Entry exists for the latest meal plan. Please create another meal plan before writing a new entry."
+            : "Reflect on your previous week. How have you felt with your energy, sleep, and mood after eating the above meals?"}
+        </p>
         <form>
           <div className="journal-form">
             <label htmlFor="energy">
@@ -173,7 +178,7 @@ function JournalEntries() {
             </label>
           </div>
           <label htmlFor="comment">
-            Journal Comment
+            Journal Note
             <textarea
               disabled={isExistingEntryForCurrentMealPlan || ""}
               name="comment"
@@ -181,6 +186,7 @@ function JournalEntries() {
               cols="30"
               rows="10"
               onChange={handleChange}
+              placeholder="A place for any notes relevant to your entry for the week."
               value={journalEntry.comment}
             />
           </label>
@@ -191,9 +197,6 @@ function JournalEntries() {
           >
             Enter Journal Entry
           </button>
-          {isExistingEntryForCurrentMealPlan
-            ? "A Journal Entry exists for the latest meal plan. Please create another meal plan before writing a new entry."
-            : ""}
         </form>
         <ToastContainer
           position="bottom-center"

@@ -11,6 +11,33 @@ exports.index = (_req, res) => {
     );
 };
 
+// all nutrition data by user
+exports.allNutritionByUser = (req, res) => {
+  knex("nutritiondata")
+    .where({
+      users_id: req.params.userId,
+    })
+    .orderBy("created_at", "asc")
+    .then((data) => {
+      // If record is not found, respond with 404
+      if (!data.length) {
+        return res
+          .status(404)
+          .send(`Record with id: ${req.params.userId} is not found`);
+      }
+
+      // Knex returns an array of records, so we need to send response with a single object only
+      res.status(200).json(data);
+    })
+    .catch((err) =>
+      res
+        .status(400)
+        .send(
+          `Error retrieving single nutrition data point from user ${req.params.userId} ${err}`
+        )
+    );
+};
+
 // all nutrition data by user and nutrition type
 exports.allNutritionByUserByType = (req, res) => {
   knex("nutritiondata")

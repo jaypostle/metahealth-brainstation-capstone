@@ -3,12 +3,15 @@ import { useMealPlan, useMealPlanClear } from "../../Context/MealPlanContext";
 import RecipeCard from "../../Components/RecipeCard/RecipeCard";
 import RecipeWall from "../../Components/RecipeWall/RecipeWall";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function MealPlan() {
   const mealPlan = useMealPlan();
   const mealPlanClear = useMealPlanClear();
-  const [confirmSuccess, setConfirmSuccess] = useState("");
   const [mealPlanRecipes, setMealPlanRecipes] = useState();
+  const notify = () => toast("Meal Plan Added.");
 
   const fetchRecipesSearchData = async (queryString) => {
     try {
@@ -24,25 +27,6 @@ function MealPlan() {
       console.log(err);
     }
   };
-
-  // const getMealPlanInfo = async () => {
-  //   const options = {
-  //     method: "GET",
-  //     headers: {
-  //       "X-RapidAPI-Key": "eeef1d4a6cmsh6a9981b462c7423p125e89jsn3f5550386605",
-  //       "X-RapidAPI-Host":
-  //         "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-  //     },
-  //   };
-
-  //   fetch(
-  //     "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/informationBulk?ids=987%2C715538%2C716429&includeNutrition=true",
-  //     options
-  //   )
-  //     .then((response) => response.json())
-  //     .then((response) => console.log(response))
-  //     .catch((err) => console.error(err));
-  // };
 
   useEffect(() => {
     const query = mealPlan.join("%2C");
@@ -88,6 +72,8 @@ function MealPlan() {
     }
   };
 
+  let navigate = useNavigate();
+
   const handleConfirmMealPlan = (e) => {
     // grab nutrition data from each recipe
     const totalNutritionType = (ntype) => {
@@ -99,12 +85,6 @@ function MealPlan() {
       });
       return totalByNutrition;
     };
-
-    // make one object with the sum of all iron (volume and type)
-    // const nutritionDataPostObj = {
-    //   nutrition_type: "Iron",
-    //   nutrition_volume: totalNutritionType("Iron"),
-    // };
 
     // Post a meal plan, return the mealplan Id
     postMealPlan(mealPlan.join(",")).then((res) => {
@@ -123,7 +103,11 @@ function MealPlan() {
     // sets Mealplan to null
     // sets mealplan recipes to null (this will happen automatically when you set mealplan to null)
     mealPlanClear();
-    setConfirmSuccess("Meal Plan Confirmed and Nutrition Data Point created.");
+    notify();
+
+    setTimeout(() => {
+      navigate("/journal");
+    }, 3000);
   };
 
   return (
@@ -136,8 +120,20 @@ function MealPlan() {
       >
         Confirm Meal Plan
       </button>
-      {confirmSuccess && <h4>{confirmSuccess}</h4>}
       {mealPlanRecipes && <RecipeWall recipes={mealPlanRecipes} />}
+
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </section>
   );
 }

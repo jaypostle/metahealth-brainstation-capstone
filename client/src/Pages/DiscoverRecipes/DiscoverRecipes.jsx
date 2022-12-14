@@ -1,18 +1,13 @@
-import React from "react";
 import axios from "axios";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import RecipeWall from "../../Components/RecipeWall/RecipeWall";
-import data from "../../data/data.json";
 
 function Discover() {
-  const [recipeId, setRecipeId] = useState("716429");
   const [searchString, setSearchString] = useState("");
   const [discoverRecipes, setDiscoverRecipes] = useState([]);
   const [failureMessage, setFailureMessage] = useState("");
 
   useEffect(() => {
-    console.log("search String after submit", searchString);
-    console.log("discover params after submit", discoverParams);
     fetchRecipesSearchData(searchString);
   }, [searchString]);
 
@@ -64,11 +59,6 @@ function Discover() {
   };
 
   const handleCheckBoxChange = (e) => {
-    // console.log(e.target.name, ":", e.target.value);
-
-    // find that key
-    // console.log(e.target.checked);
-    // if (discoverParams[e.target.name].length === 0) {
     if (e.target.checked) {
       // this will add the checkbox target value into the array of that name
       const newArray = [...discoverParams[e.target.name], e.target.value];
@@ -158,7 +148,7 @@ function Discover() {
       })
       .join("");
 
-    console.log(newSearchString);
+    // console.log(newSearchString);
 
     setSearchString(newSearchString);
   };
@@ -245,12 +235,22 @@ function Discover() {
               />
             </label>
             <label className="discover__label--checkbox">
-              Onions
+              Egg
               <input
                 name="discoverFridge"
                 type="checkbox"
                 className="discover-fridge"
-                value="onion"
+                value="egg"
+                onClick={handleCheckBoxChange}
+              />
+            </label>
+            <label className="discover__label--checkbox">
+              Tofu
+              <input
+                name="discoverFridge"
+                type="checkbox"
+                className="discover-fridge"
+                value="tofu"
                 onClick={handleCheckBoxChange}
               />
             </label>
@@ -271,12 +271,12 @@ function Discover() {
           Dietary Preferences
           <div className="discover__dietary-preferences-wrapper--checkboxes">
             <label className="discover__label--checkbox">
-              Ketogenic
+              Vegan
               <input
                 name="dietaryPreferences"
                 type="checkbox"
                 className="dietary-preferences"
-                value="ketogenic"
+                value="vegan"
                 onClick={handleCheckBoxChange}
               />
             </label>
@@ -297,6 +297,36 @@ function Discover() {
                 type="checkbox"
                 className="allergens"
                 value="gluten-free"
+                onClick={handleCheckBoxChange}
+              />
+            </label>
+            <label className="discover__label--checkbox">
+              Paleo
+              <input
+                name="dietaryPreferences"
+                type="checkbox"
+                className="dietary-preferences"
+                value="paleo"
+                onClick={handleCheckBoxChange}
+              />
+            </label>
+            <label className="discover__label--checkbox">
+              Pescetarian
+              <input
+                name="dietaryPreferences"
+                type="checkbox"
+                className="dietary-preferences"
+                value="pescetarian"
+                onClick={handleCheckBoxChange}
+              />
+            </label>
+            <label className="discover__label--checkbox">
+              Ketogenic
+              <input
+                name="dietaryPreferences"
+                type="checkbox"
+                className="dietary-preferences"
+                value="ketogenic"
                 onClick={handleCheckBoxChange}
               />
             </label>
@@ -332,6 +362,46 @@ function Discover() {
                 type="checkbox"
                 className="allergens"
                 value="dairy"
+                onClick={handleCheckBoxChange}
+              />
+            </label>
+            <label className="discover__label--checkbox">
+              Sesame
+              <input
+                name="allergens"
+                type="checkbox"
+                className="allergens"
+                value="sesame"
+                onClick={handleCheckBoxChange}
+              />
+            </label>
+            <label className="discover__label--checkbox">
+              Egg
+              <input
+                name="allergens"
+                type="checkbox"
+                className="allergens"
+                value="egg"
+                onClick={handleCheckBoxChange}
+              />
+            </label>
+            <label className="discover__label--checkbox">
+              Soy
+              <input
+                name="allergens"
+                type="checkbox"
+                className="allergens"
+                value="soy"
+                onClick={handleCheckBoxChange}
+              />
+            </label>
+            <label className="discover__label--checkbox">
+              Peanut
+              <input
+                name="allergens"
+                type="checkbox"
+                className="allergens"
+                value="peanut"
                 onClick={handleCheckBoxChange}
               />
             </label>

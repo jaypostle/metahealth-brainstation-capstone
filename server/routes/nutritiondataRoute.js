@@ -15,4 +15,6 @@ router
   .route("/:userId/:nutritionType")
   .get(nutritiondataController.allNutritionByUserByType);
 
+router.route("/:userId").get(nutritiondataController.allNutritionByUser);
+
 module.exports = router;

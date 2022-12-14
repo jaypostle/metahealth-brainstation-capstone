@@ -1,3 +1,4 @@
+import "./App.scss";
 import DiscoverRecipes from "./Pages/DiscoverRecipes/DiscoverRecipes";
 import MealPlan from "./Pages/MealPlan/MealPlan";
 import NutritionChart from "./Pages/Charts/NutritionChart/NutritionChart";

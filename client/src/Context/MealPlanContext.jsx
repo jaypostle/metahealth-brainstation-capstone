@@ -32,7 +32,7 @@ export function MealPlanProvider({ children }) {
   }, [mealPlan]);
 
   function toggleMealPlan(id) {
-    console.log("toggle meal plan ran");
+    // console.log("toggle meal plan ran");
     // find that id in the meal plan
     if (mealPlan.includes(id)) {
       const newMealPlan = mealPlan.filter((recipe) => recipe !== id);
@@ -44,7 +44,7 @@ export function MealPlanProvider({ children }) {
   }
 
   function clearMealPlan() {
-    console.log("clear meal plan ran");
+    // console.log("clear meal plan ran");
     localStorage.clear();
     setMealPlan([]);
   }
