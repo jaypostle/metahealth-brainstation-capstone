@@ -1,13 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
-import Charts from "../Examples/Charts";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
 import axios from "axios";
 import { useState } from "react";
 import moment from "moment";
-import BarChart from "../Examples/BarChart";
 
 function NutritionChart() {
-  const [nutritionResponse, setNutritionResponse] = useState([]);
+  const [nutritionResponse, setNutritionResponse] = useState({});
+  const [healthData, setHealthData] = useState({});
   const [nutritionData, setNutritionData] = useState();
 
   const mySQLdateToJS = (mySQLdateStamp) => {
@@ -30,20 +31,26 @@ function NutritionChart() {
     return momentDate;
   };
 
+
+  
+
   // query nutrition schema for all points from a specific user
   const fetchNutritionData = async (userId, nutritionType) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/nutritiondata/${userId}/${nutritionType}` // sort by createdDate
+        `http://localhost:8080/api/nutritiondata/${userId}/${nutritionType}` 
       );
       console.log(response.data);
-      setNutritionResponse(response.data);
+      setNutritionResponse({
+        ...nutritionResponse,
+        [nutritionType]: response.data,
+      });
+
       setNutritionData({
         labels: response.data.map((data) => {
           return `${mySQLdateToJS(data.created_at)} Week: ${mySQLdateToWeek(
             data.created_at
           )}`;
-          // mySQLdateToJS(data.created_at)
         }),
         datasets: [
           {
@@ -56,8 +63,25 @@ function NutritionChart() {
               "#f3ba2f",
               "#2a71d0",
             ],
-            borderColor: "black",
-            borderWidth: 2,
+            borderColor: "blue",
+            borderWidth: 3,
+            tension: 0.4,
+            yAxisID: "nutrition",
+          },
+          {
+            label: "Mood",
+            data: [3, 5, 7, 10],
+            backgroundColor: [
+              "rgba(75,192,192,1)",
+              "#ecf0f1",
+              "#50AF95",
+              "#f3ba2f",
+              "#2a71d0",
+            ],
+            borderColor: "red",
+            borderWidth: 3,
+            tension: 0.4,
+            yAxisID: "health",
           },
         ],
       });
@@ -71,17 +95,44 @@ function NutritionChart() {
     mySQLdateToJS("2022-12-09T23:49:52.000Z");
   }, []);
 
-  // build the data json
+  useEffect(() => {
+    console.log("nutrition: ", nutritionResponse);
+    console.log("health data: ", healthData);
+  }, [nutritionResponse, healthData]);
 
   return (
     <div>
-      NutritionChart
+      <h1>NutritionChart</h1>
       {nutritionData && (
         <div style={{ width: "700px" }}>
-          <BarChart chartData={nutritionData} />
+          <Line
+            data={nutritionData}
+            options={{
+              scales: {
+                nutrition: {
+                  // beginAtZero: true,
+                  type: "linear",
+                  position: "left",
+                },
+                health: {
+                  // beginAtZero: true,
+                  type: "linear",
+                  position: "right",
+                  grid: {
+                    drawOnChartArea: false,
+                  },
+                },
+              },
+              plugins: {
+                title: {
+                  display: true,
+                  text: "Users Gained between 2016-2020",
+                },
+              },
+            }}
+          />
         </div>
       )}
-      {/* <Charts /> */}
     </div>
   );
 }
