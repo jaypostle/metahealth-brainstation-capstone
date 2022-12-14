@@ -13,8 +13,8 @@ function NutritionChart() {
 
   // Data for charts
   const [healthData, setHealthData] = useState();
-  const [nutritionData, setNutritionData] = useState();
 
+  const [toggleNutrition, setToggleNutrition] = useState("Iron");
   const [toggleHealth, setToggleHealth] = useState("energy");
 
   const mySQLdateToJS = (mySQLdateStamp) => {
@@ -38,10 +38,10 @@ function NutritionChart() {
   };
 
   // query nutrition schema for all points from a specific user
-  const fetchData = async (userId, nutritionType) => {
+  const fetchData = async (userId) => {
     try {
       const { data: nutrition } = await axios.get(
-        `http://localhost:8080/api/nutritiondata/${userId}/${nutritionType}`
+        `http://localhost:8080/api/nutritiondata/${userId}`
       );
 
       const { data: health } = await axios.get(
@@ -52,11 +52,8 @@ function NutritionChart() {
         `http://localhost:8080/api/mealplans/${userId}`
       );
 
-      console.log(mealPlans);
-
-      console.log(nutrition);
       setNutritionResponse(nutrition);
-      // console.log(health);
+
       setHealthResponse(health);
 
       // setNutritionData({
@@ -104,11 +101,15 @@ function NutritionChart() {
   };
 
   useEffect(() => {
-    fetchData("2922c286-16cd-4d43-ab98-c79f698aeab0", "Iron");
+    fetchData("2922c286-16cd-4d43-ab98-c79f698aeab0");
   }, []);
 
   const handleHealthToggle = (health) => {
     setToggleHealth(health);
+  };
+
+  const handleNutritionToggle = (nutrition) => {
+    setToggleNutrition(nutrition);
   };
 
   //get all mealplans from user
@@ -123,22 +124,28 @@ function NutritionChart() {
         <div style={{ width: "700px" }}>
           <Line
             data={{
-              labels: nutritionResponse.map((data) => {
-                return `${mySQLdateToJS(
-                  data.created_at
-                )} Week: ${mySQLdateToWeek(data.created_at)}`;
-              }),
+              labels: nutritionResponse
+                .filter((record) => record.nutrition_type === toggleNutrition)
+                .map((data) => {
+                  return `${mySQLdateToJS(
+                    data.created_at
+                  )} Week: ${mySQLdateToWeek(data.created_at)}`;
+                }),
               datasets: [
                 {
-                  label: "Iron Count",
-                  data: nutritionResponse.map((data) => data.nutrition_volume),
+                  label: `${toggleNutrition} Count`,
+                  data: nutritionResponse
+                    .filter(
+                      (record) => record.nutrition_type === toggleNutrition
+                    )
+                    .map((data) => data.nutrition_volume),
                   borderColor: "blue",
                   borderWidth: 3,
                   tension: 0.4,
                   yAxisID: "nutrition",
                 },
                 {
-                  label: toggleHealth,
+                  label: `${toggleHealth} Total`,
                   data: healthResponse.map((data) => data[toggleHealth]),
                   borderColor: "red",
                   borderWidth: 3,
@@ -175,7 +182,45 @@ function NutritionChart() {
       )}
 
       <div>
+        <h2>Nutrients</h2>
         <button
+          className={toggleNutrition === "Iron" ? "active" : ""}
+          onClick={(e) => {
+            handleNutritionToggle("Iron");
+          }}
+        >
+          Iron
+        </button>
+        <button
+          className={toggleNutrition === "Zinc" ? "active" : ""}
+          onClick={(e) => {
+            handleNutritionToggle("Zinc");
+          }}
+        >
+          Zinc
+        </button>
+        <button
+          className={toggleNutrition === "Magnesium" ? "active" : ""}
+          onClick={(e) => {
+            handleNutritionToggle("Magnesium");
+          }}
+        >
+          Magnesium
+        </button>
+        <button
+          className={toggleNutrition === "Calcium" ? "active" : ""}
+          onClick={(e) => {
+            handleNutritionToggle("Calcium");
+          }}
+        >
+          Calcium
+        </button>
+      </div>
+
+      <div>
+        <h2>Health Fields</h2>
+        <button
+          className={toggleHealth === "energy" ? "active" : ""}
           onClick={(e) => {
             handleHealthToggle("energy");
           }}
@@ -183,6 +228,7 @@ function NutritionChart() {
           Energy
         </button>
         <button
+          className={toggleHealth === "sleep" ? "active" : ""}
           onClick={(e) => {
             handleHealthToggle("sleep");
           }}
@@ -190,6 +236,7 @@ function NutritionChart() {
           Sleep
         </button>
         <button
+          className={toggleHealth === "mood" ? "active" : ""}
           onClick={(e) => {
             handleHealthToggle("mood");
           }}
@@ -197,8 +244,6 @@ function NutritionChart() {
           Mood
         </button>
       </div>
-
-      <div></div>
     </section>
   );
 }

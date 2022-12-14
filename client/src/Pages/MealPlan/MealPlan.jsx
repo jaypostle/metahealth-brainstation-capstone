@@ -45,7 +45,6 @@ function MealPlan() {
   // };
 
   useEffect(() => {
-    console.log(mealPlan);
     const query = mealPlan.join("%2C");
     fetchRecipesSearchData(query);
   }, [mealPlan]);
@@ -102,17 +101,23 @@ function MealPlan() {
     };
 
     // make one object with the sum of all iron (volume and type)
-    const nutritionDataPostObj = {
-      nutrition_type: "Iron",
-      nutrition_volume: totalNutritionType("Iron"),
-    };
-    console.log(nutritionDataPostObj);
+    // const nutritionDataPostObj = {
+    //   nutrition_type: "Iron",
+    //   nutrition_volume: totalNutritionType("Iron"),
+    // };
 
     // Post a meal plan, return the mealplan Id
     postMealPlan(mealPlan.join(",")).then((res) => {
       // post a nutritionData point with this mealPlanId newly created
       // console.log(res);
       postNutritionDataPoint(res.id, "Iron", totalNutritionType("Iron"));
+      postNutritionDataPoint(res.id, "Zinc", totalNutritionType("Zinc"));
+      postNutritionDataPoint(
+        res.id,
+        "Magnesium",
+        totalNutritionType("Magnesium")
+      );
+      postNutritionDataPoint(res.id, "Calcium", totalNutritionType("Calcium"));
     });
 
     // sets Mealplan to null
