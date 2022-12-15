@@ -99,3 +99,28 @@
   font-weight: 700;
   font-style: normal;
 }
+
+// Lora
+/* Regular */
+@font-face {
+  font-family: "Lora";
+  src: url("../../assets/fonts/lora/Lora-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Demi */
+@font-face {
+  font-family: "Lora";
+  src: url("../../assets/fonts/lora/Lora-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Bold */
+@font-face {
+  font-family: "Lora";
+  src: url("../../assets/fonts/lora/Lora-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}

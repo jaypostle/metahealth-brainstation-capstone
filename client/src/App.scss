@@ -3,14 +3,23 @@
 html,
 body {
   margin: 0;
-//   font-family: "Tillium Web";
+  //   font-family: "Tillium Web";
   font-family: "Barlow";
-//   font-family: "Nunito";
-//   font-family: "Rubik";
+  font-family: "Nunito";
+  font-family: "Rubik";
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  font-size: 16px;
+  // display: flex;
+  // flex-direction: column;
+  font-size: 1rem;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Barlow";
+  //   font-family: "Rubik";
+  //   font-family: "Nunito";
+  // font-family: "Lora";
 }
 
 *,

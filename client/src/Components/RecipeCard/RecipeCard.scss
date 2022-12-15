@@ -1,0 +1,47 @@
+@use "../../styles/partials/colors.scss" as colors;
+@use "../../styles/partials/fonts.scss";
+@use "../../styles/partials/buttons.scss";
+
+.recipe-card {
+  width: 100%;
+  background-color: colors.$cloud;
+  border-radius: 1rem;
+
+  h3,
+  h4 {
+    margin: 0px;
+  }
+
+  &__all-text {
+    height: 14.5rem;
+  }
+  &__meta-data {
+    padding: 0.5rem 0.75rem;
+  }
+  &__diets {
+    padding: 0.5rem 0.75rem;
+  }
+
+  &__allergens {
+    padding: 0.5rem 0.75rem;
+  }
+  &__image {
+    width: 100%;
+    border-radius: 1rem 1rem 0rem 0rem;
+  }
+
+  &__button-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__button {
+    margin-bottom: 0.5rem !important;
+  }
+
+  &__view-recipe {
+    margin-bottom: 0.75rem !important;
+  }
+}

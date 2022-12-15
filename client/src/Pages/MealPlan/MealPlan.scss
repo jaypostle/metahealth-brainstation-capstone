@@ -1,0 +1,11 @@
+.meal-plan {
+  padding: 0rem 1rem;
+  margin: 2rem 0rem;
+
+  &__btn-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}

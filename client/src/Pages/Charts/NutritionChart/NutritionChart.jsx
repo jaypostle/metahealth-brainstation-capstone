@@ -127,9 +127,7 @@ function NutritionChart() {
               labels: nutritionResponse
                 .filter((record) => record.nutrition_type === toggleNutrition)
                 .map((data) => {
-                  return `${mySQLdateToJS(
-                    data.created_at
-                  )} Week: ${mySQLdateToWeek(data.created_at)}`;
+                  return `Week: ${mySQLdateToWeek(data.created_at)}`; //Week: ${mySQLdateToWeek(data.created_at)} ${mySQLdateToJS(data.created_at)
                 }),
               datasets: [
                 {
@@ -139,7 +137,7 @@ function NutritionChart() {
                       (record) => record.nutrition_type === toggleNutrition
                     )
                     .map((data) => data.nutrition_volume),
-                  borderColor: "blue",
+                  borderColor: "#28406fc8",
                   borderWidth: 3,
                   tension: 0.4,
                   yAxisID: "nutrition",
@@ -147,7 +145,7 @@ function NutritionChart() {
                 {
                   label: `${toggleHealth} Total`,
                   data: healthResponse.map((data) => data[toggleHealth]),
-                  borderColor: "red",
+                  borderColor: "#e98d58cd",
                   borderWidth: 3,
                   tension: 0.4,
                   yAxisID: "health",

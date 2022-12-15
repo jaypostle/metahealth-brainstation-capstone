@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import "./MealPlan.scss";
+
 function MealPlan() {
   const mealPlan = useMealPlan();
   const mealPlanClear = useMealPlanClear();
@@ -111,17 +113,19 @@ function MealPlan() {
   };
 
   return (
-    <section>
+    <section className="meal-plan">
       <h1>Meal Plan</h1>
-      <button
-        onClick={(e) => {
-          handleConfirmMealPlan(e);
-        }}
-      >
-        Confirm Meal Plan
-      </button>
       {mealPlanRecipes && <RecipeWall recipes={mealPlanRecipes} />}
-
+      <div className="meal-plan__btn-wrapper">
+        <button
+          className="primary-btn meal-plan__btn"
+          onClick={(e) => {
+            handleConfirmMealPlan(e);
+          }}
+        >
+          Confirm Meal Plan
+        </button>
+      </div>
       <ToastContainer
         position="bottom-center"
         autoClose={2000}

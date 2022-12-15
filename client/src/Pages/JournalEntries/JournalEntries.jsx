@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RecipeCardSmall from "../../Components/RecipeCardSmall/RecipeCardSmall";
+import "./JournalEntries.scss";
 
 function JournalEntries() {
   const [currentMealPlanId, setCurrentMealPlanId] = useState();
@@ -122,14 +123,16 @@ function JournalEntries() {
   };
 
   return (
-    <div>
+    <section className="journal-entries">
       <h1>Journal Entries</h1>
-      <section className="recipe-wall">
+      <section className="journal__recipes-wall">
         <h2>Most recently confirmed mealplan </h2>
-        {mealPlanRecipes &&
-          mealPlanRecipes.map((recipe) => {
-            return <RecipeCardSmall key={recipe.id} recipe={recipe} />;
-          })}
+        <div className="journal__recipe-wall">
+          {mealPlanRecipes &&
+            mealPlanRecipes.map((recipe) => {
+              return <RecipeCardSmall key={recipe.id} recipe={recipe} />;
+            })}
+        </div>
       </section>
       <section>
         <h2>Write a Journal Entry</h2>
@@ -211,7 +214,7 @@ function JournalEntries() {
           theme="light"
         />
       </section>
-    </div>
+    </section>
   );
 }
 

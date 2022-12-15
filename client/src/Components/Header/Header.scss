@@ -1,0 +1,33 @@
+@use "../../styles/partials/colors.scss" as colors;
+@use "../../styles/partials/fonts.scss";
+@use "../../styles/partials/buttons.scss";
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: colors.$meta-midnight;
+
+  ul {
+    display: flex;
+    padding-left: 0px;
+    gap: 1rem;
+    list-style-type: none;
+
+    // li {
+    //   &:hover {
+    //     background-color: colors.$gold;
+    //   }
+    // }
+
+    a {
+      text-decoration: none;
+      font-size: 1em;
+      font-weight: 600;
+      color: colors.$white;
+      &:hover {
+        color: colors.$gold;
+      }
+    }
+  }
+}

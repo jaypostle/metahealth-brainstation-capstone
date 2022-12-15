@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import RecipeWall from "../../Components/RecipeWall/RecipeWall";
+import "./DiscoverRecipes.scss";
 
 function Discover() {
   const [searchString, setSearchString] = useState("");
@@ -154,16 +155,16 @@ function Discover() {
   };
 
   return (
-    <div>
+    <section className="discover-recipes">
       <h1>Discover Recipes</h1>
 
       <form
-        className="discover-recipes-form"
+        className="discover-recipes__form"
         ref={formRef}
         onSubmit={handleFormSubmit}
       >
         {/*  Select Field */}
-        <label htmlFor="meal-type" className="discover__label">
+        <label htmlFor="meal-type" className="discover__label discover__label--meal-type">
           Meal Type
           <select
             defaultValue={discoverParams.mealType || "Select"}
@@ -200,7 +201,7 @@ function Discover() {
             </option>
           </select>
         </label>
-        <label className="discover__label">
+        <label className="discover__label discover__label--search ">
           Search
           <input
             name="search"
@@ -211,9 +212,9 @@ function Discover() {
             }}
           />
         </label>
-        <div className="discover-fridge-wrapper">
-          What's in your fridge
-          <div className="discover-fridge-wrapper--checkboxes">
+        <div className="discover__fridge-wrapper">
+          <h4> What's in your fridge</h4>
+          <div className="discover__fridge-wrapper--checkboxes">
             <label className="discover__label--checkbox">
               Chicken
               <input
@@ -255,7 +256,7 @@ function Discover() {
               />
             </label>
           </div>
-          <label className="discover__label">
+          <label className="discover__label discover__label--search">
             Search
             <input
               name="fridgeSearch"
@@ -268,7 +269,7 @@ function Discover() {
           </label>
         </div>
         <label className="discover__label">
-          Dietary Preferences
+          <h4> Dietary Preferences </h4>
           <div className="discover__dietary-preferences-wrapper--checkboxes">
             <label className="discover__label--checkbox">
               Vegan
@@ -333,7 +334,7 @@ function Discover() {
           </div>
         </label>
         <label className="discover__label">
-          Allergens
+          <h4> Allergens</h4>
           <div className="discover__allergens-wrapper--checkboxes">
             <label className="discover__label--checkbox">
               Tree Nuts
@@ -409,7 +410,9 @@ function Discover() {
         </label>
         {/* Place Sorts here */}
         {/* Sort by Iron, Salt, Sugar etc */}
-        <button type="submit">Discover Recipes</button>
+        <button type="submit" className="primary-btn discover__button">
+          Discover Recipes
+        </button>
       </form>
 
       {failureMessage && <h2>{failureMessage}</h2>}
@@ -420,7 +423,7 @@ function Discover() {
           recipes={discoverRecipes}
         />
       )}
-    </div>
+    </section>
   );
 }
 
