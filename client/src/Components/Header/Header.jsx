@@ -2,11 +2,18 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.scss";
 
+import { MdBubbleChart } from "react-icons/md";
+
 function Header() {
   const location = useLocation();
   const pathname = location.pathname;
   return (
     <header className="header">
+      <div className="header__logo">
+        <span>
+          MetaHealth <MdBubbleChart />
+        </span>
+      </div>
       <ul>
         <li>
           <Link to="/discover">Discover</Link>

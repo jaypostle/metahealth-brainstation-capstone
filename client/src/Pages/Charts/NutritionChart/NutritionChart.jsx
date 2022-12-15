@@ -5,6 +5,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 import axios from "axios";
 import { useState } from "react";
 import moment from "moment";
+import "./NutritionChart.scss";
 
 function NutritionChart() {
   // Initial response from Axios
@@ -118,7 +119,7 @@ function NutritionChart() {
   // print week, and just 3 cards: title
 
   return (
-    <section>
+    <section className="chart">
       <h1>Total Health & Nutrition Chart</h1>
       {nutritionResponse && (
         <div style={{ width: "700px" }}>
@@ -178,11 +179,12 @@ function NutritionChart() {
           />
         </div>
       )}
-
-      <div>
-        <h2>Nutrients</h2>
+      <h2>Nutrients</h2>
+      <div className="chart__nutrients-btn-wrapper">
         <button
-          className={toggleNutrition === "Iron" ? "active" : ""}
+          className={
+            toggleNutrition === "Iron" ? "primary-btn" : "secondary-btn"
+          }
           onClick={(e) => {
             handleNutritionToggle("Iron");
           }}
@@ -190,7 +192,9 @@ function NutritionChart() {
           Iron
         </button>
         <button
-          className={toggleNutrition === "Zinc" ? "active" : ""}
+          className={
+            toggleNutrition === "Zinc" ? "primary-btn" : "secondary-btn"
+          }
           onClick={(e) => {
             handleNutritionToggle("Zinc");
           }}
@@ -198,7 +202,9 @@ function NutritionChart() {
           Zinc
         </button>
         <button
-          className={toggleNutrition === "Magnesium" ? "active" : ""}
+          className={
+            toggleNutrition === "Magnesium" ? "primary-btn" : "secondary-btn"
+          }
           onClick={(e) => {
             handleNutritionToggle("Magnesium");
           }}
@@ -206,7 +212,9 @@ function NutritionChart() {
           Magnesium
         </button>
         <button
-          className={toggleNutrition === "Calcium" ? "active" : ""}
+          className={
+            toggleNutrition === "Calcium" ? "primary-btn" : "secondary-btn"
+          }
           onClick={(e) => {
             handleNutritionToggle("Calcium");
           }}
@@ -214,11 +222,12 @@ function NutritionChart() {
           Calcium
         </button>
       </div>
-
-      <div>
-        <h2>Health Fields</h2>
+      <h2>Health Fields</h2>
+      <div className="chart__health-btn-wrapper">
         <button
-          className={toggleHealth === "energy" ? "active" : ""}
+          className={
+            toggleHealth === "energy" ? "primary-btn" : "secondary-btn"
+          }
           onClick={(e) => {
             handleHealthToggle("energy");
           }}
@@ -226,7 +235,7 @@ function NutritionChart() {
           Energy
         </button>
         <button
-          className={toggleHealth === "sleep" ? "active" : ""}
+          className={toggleHealth === "sleep" ? "primary-btn" : "secondary-btn"}
           onClick={(e) => {
             handleHealthToggle("sleep");
           }}
@@ -234,7 +243,7 @@ function NutritionChart() {
           Sleep
         </button>
         <button
-          className={toggleHealth === "mood" ? "active" : ""}
+          className={toggleHealth === "mood" ? "primary-btn" : "secondary-btn"}
           onClick={(e) => {
             handleHealthToggle("mood");
           }}

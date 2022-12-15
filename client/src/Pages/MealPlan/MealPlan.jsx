@@ -33,6 +33,7 @@ function MealPlan() {
   useEffect(() => {
     const query = mealPlan.join("%2C");
     fetchRecipesSearchData(query);
+    console.log(mealPlanRecipes);
   }, [mealPlan]);
 
   const postMealPlan = async (mealPlanString) => {
@@ -115,17 +116,38 @@ function MealPlan() {
   return (
     <section className="meal-plan">
       <h1>Meal Plan</h1>
-      {mealPlanRecipes && <RecipeWall recipes={mealPlanRecipes} />}
-      <div className="meal-plan__btn-wrapper">
-        <button
-          className="primary-btn meal-plan__btn"
-          onClick={(e) => {
-            handleConfirmMealPlan(e);
-          }}
-        >
-          Confirm Meal Plan
-        </button>
-      </div>
+      {/* {mealPlanRecipes.length === 0 ? (
+        "No Recipes for the current meal plan"
+      ) : (
+        <div>
+          <RecipeWall recipes={mealPlanRecipes} />
+          <div className="meal-plan__btn-wrapper">
+            <button
+              className="primary-btn meal-plan__btn"
+              onClick={(e) => {
+                handleConfirmMealPlan(e);
+              }}
+            >
+              Confirm Meal Plan
+            </button>
+          </div>
+        </div>
+      )} */}
+      {mealPlanRecipes && (
+        <div>
+          <RecipeWall recipes={mealPlanRecipes} />
+          <div className="meal-plan__btn-wrapper">
+            <button
+              className="primary-btn meal-plan__btn"
+              onClick={(e) => {
+                handleConfirmMealPlan(e);
+              }}
+            >
+              Confirm Meal Plan
+            </button>
+          </div>
+        </div>
+      )}
       <ToastContainer
         position="bottom-center"
         autoClose={2000}

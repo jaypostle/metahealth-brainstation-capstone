@@ -164,7 +164,10 @@ function Discover() {
         onSubmit={handleFormSubmit}
       >
         {/*  Select Field */}
-        <label htmlFor="meal-type" className="discover__label discover__label--meal-type">
+        <label
+          htmlFor="meal-type"
+          className="discover__label discover__label--meal-type"
+        >
           Meal Type
           <select
             defaultValue={discoverParams.mealType || "Select"}
@@ -411,7 +414,7 @@ function Discover() {
         {/* Place Sorts here */}
         {/* Sort by Iron, Salt, Sugar etc */}
         <button type="submit" className="primary-btn discover__button">
-          Discover Recipes
+          Discover
         </button>
       </form>
 

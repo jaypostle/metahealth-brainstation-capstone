@@ -4,21 +4,35 @@
 
 .header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: colors.$meta-midnight;
+
+  &__logo {
+    color: colors.$white;
+    padding: 1.0675rem;
+    background-color: colors.$meta-peach;
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-right: 2rem;
+  }
 
   ul {
     display: flex;
     padding-left: 0px;
     gap: 1rem;
     list-style-type: none;
+    margin: 0px;
+    margin-right: 2rem;
 
-    // li {
-    //   &:hover {
-    //     background-color: colors.$gold;
-    //   }
-    // }
+    li {
+      padding: 1.0825rem 0rem;
+      border-top: 3px solid rgba($color: #000000, $alpha: 0);
+      border-bottom: 3px solid rgba($color: #000000, $alpha: 0);
+      &:hover {
+        border-bottom: 3px solid colors.$gold;
+      }
+    }
 
     a {
       text-decoration: none;
@@ -26,7 +40,7 @@
       font-weight: 600;
       color: colors.$white;
       &:hover {
-        color: colors.$gold;
+        // color: colors.$gold;
       }
     }
   }

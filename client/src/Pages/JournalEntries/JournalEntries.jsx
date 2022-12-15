@@ -134,17 +134,23 @@ function JournalEntries() {
             })}
         </div>
       </section>
-      <section>
+      <section className="section--form">
         <h2>Write a Journal Entry</h2>
         <p>
           {isExistingEntryForCurrentMealPlan
             ? "A Journal Entry exists for the latest meal plan. Please create another meal plan before writing a new entry."
             : "Reflect on your previous week. How have you felt with your energy, sleep, and mood after eating the above meals?"}
         </p>
-        <form>
-          <div className="journal-form">
+        <form className="journal__form">
+          <div className="journal__range-wrapper">
             <label htmlFor="energy">
-              Energy: {journalEntry.energy}
+              <h4>
+                {" "}
+                Energy:{" "}
+                <span className="journal__range-total">
+                  {journalEntry.energy}
+                </span>
+              </h4>
               <input
                 disabled={isExistingEntryForCurrentMealPlan || ""}
                 type="range"
@@ -156,7 +162,13 @@ function JournalEntries() {
               />
             </label>
             <label htmlFor="energy">
-              Sleep Quality: {journalEntry.sleep}
+              <h4>
+                {" "}
+                Sleep Quality:{" "}
+                <span className="journal__range-total">
+                  {journalEntry.sleep}
+                </span>
+              </h4>
               <input
                 disabled={isExistingEntryForCurrentMealPlan || ""}
                 type="range"
@@ -168,7 +180,13 @@ function JournalEntries() {
               />
             </label>
             <label htmlFor="energy">
-              Mood: {journalEntry.mood}
+              <h4>
+                {" "}
+                Mood:{" "}
+                <span className="journal__range-total">
+                  {journalEntry.mood}
+                </span>
+              </h4>
               <input
                 disabled={isExistingEntryForCurrentMealPlan || ""}
                 type="range"
@@ -180,8 +198,8 @@ function JournalEntries() {
               />
             </label>
           </div>
-          <label htmlFor="comment">
-            Journal Note
+          <label htmlFor="comment" className="journal__label--note">
+            <h4> Journal Note </h4>
             <textarea
               disabled={isExistingEntryForCurrentMealPlan || ""}
               name="comment"
@@ -194,11 +212,12 @@ function JournalEntries() {
             />
           </label>
           <button
+            className="primary-btn journal__btn"
             type="submit"
             onClick={handleSubmit}
             disabled={isExistingEntryForCurrentMealPlan || ""}
           >
-            Enter Journal Entry
+            Enter Journal
           </button>
         </form>
         <ToastContainer

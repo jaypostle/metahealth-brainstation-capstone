@@ -1,0 +1,15 @@
+.chart {
+  padding: 0rem 1rem;
+  margin: 2rem 0rem;
+
+  &__nutrients-btn-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 80%;
+  }
+  &__health-btn-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 80%;
+  }
+}
