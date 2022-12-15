@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect } from "react";
-import { Line } from "react-chartjs-2";
+import { Line, getElementsAtEvent } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
+// import { LineElement, PointElement } from "chart.js/auto";
+import RecipeCardSmall from "../../../Components/RecipeCardSmall/RecipeCardSmall";
 import axios from "axios";
 import { useState } from "react";
 import moment from "moment";
@@ -17,6 +19,12 @@ function NutritionChart() {
 
   const [toggleNutrition, setToggleNutrition] = useState("Iron");
   const [toggleHealth, setToggleHealth] = useState("energy");
+
+  // For Entries Data below charts
+  const [selectedEntryIndex, setSelectedEntryIndex] = useState(0);
+  const [currentMealPlanId, setCurrentMealPlanId] = useState();
+  const [currentMealPlanArray, setCurrentMealPlanArray] = useState([]);
+  const [mealPlanRecipes, setMealPlanRecipes] = useState();
 
   const mySQLdateToJS = (mySQLdateStamp) => {
     let t = mySQLdateStamp.split(/[- : T .]/);
@@ -53,6 +61,8 @@ function NutritionChart() {
         `http://localhost:8080/api/mealplans/${userId}`
       );
 
+      console.log(nutrition);
+      console.log(health);
       setNutritionResponse(nutrition);
 
       setHealthResponse(health);
@@ -118,140 +128,260 @@ function NutritionChart() {
   // use this to get bulk data, or can I just grab one at a time
   // print week, and just 3 cards: title
 
+  const fetchMostRecentMealPlanData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/mealplans/2922c286-16cd-4d43-ab98-c79f698aeab0`
+      );
+      // console.log(response.data[selectedEntryIndex]);
+      setCurrentMealPlanId(response.data[selectedEntryIndex].id);
+      setCurrentMealPlanArray(response.data[selectedEntryIndex].meal_plan);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const fetchRecipesSearchData = async (queryString) => {
+    try {
+      const queryObj = {
+        query: queryString,
+      };
+      const response = await axios.post(
+        `http://localhost:8080/api/recipes/bulk`,
+        queryObj
+      );
+      // console.log(response.data);
+      setMealPlanRecipes(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchMostRecentMealPlanData();
+    if (currentMealPlanArray.length > 0) {
+      const query = currentMealPlanArray.split(", ").join("%2C");
+      fetchRecipesSearchData(query);
+    }
+  }, [selectedEntryIndex, currentMealPlanArray]);
+
+  const chartRef = useRef();
+
+  const handleChartClick = (e) => {
+    if (getElementsAtEvent(chartRef.current, e).length > 0) {
+      const datasetIndexNum = getElementsAtEvent(chartRef.current, e)[0]
+        .datasetIndex;
+      const datapoint = getElementsAtEvent(chartRef.current, e)[0].index;
+
+      console.log(getElementsAtEvent(chartRef.current, e));
+      setSelectedEntryIndex(datapoint);
+    }
+
+    // this returns an index of the array of both datasets that was clicked e.g. 0, 1, 5
+    // below, i can show the first index info by default,
+    // clicking a point changes the chosen index e.g. selectedIndex to that index
+
+    // get mealplan ID
+    // get the information from that array
+  };
+
+  const handleToggleWeek = () => {
+    if (selectedEntryIndex < healthResponse.length - 1) {
+      setSelectedEntryIndex(selectedEntryIndex + 1);
+    } else {
+      setSelectedEntryIndex(0);
+    }
+  };
+
   return (
-    <section className="chart">
-      <h1>Total Health & Nutrition Chart</h1>
-      {nutritionResponse && (
-        <div style={{ width: "700px" }}>
-          <Line
-            data={{
-              labels: nutritionResponse
-                .filter((record) => record.nutrition_type === toggleNutrition)
-                .map((data) => {
-                  return `Week: ${mySQLdateToWeek(data.created_at)}`; //Week: ${mySQLdateToWeek(data.created_at)} ${mySQLdateToJS(data.created_at)
-                }),
-              datasets: [
-                {
-                  label: `${toggleNutrition} Count`,
-                  data: nutritionResponse
-                    .filter(
-                      (record) => record.nutrition_type === toggleNutrition
-                    )
-                    .map((data) => data.nutrition_volume),
-                  borderColor: "#28406fc8",
-                  borderWidth: 3,
-                  tension: 0.4,
-                  yAxisID: "nutrition",
-                },
-                {
-                  label: `${toggleHealth} Total`,
-                  data: healthResponse.map((data) => data[toggleHealth]),
-                  borderColor: "#e98d58cd",
-                  borderWidth: 3,
-                  tension: 0.4,
-                  yAxisID: "health",
-                },
-              ],
-            }}
-            options={{
-              scales: {
-                nutrition: {
-                  // beginAtZero: true,
-                  type: "linear",
-                  position: "left",
-                },
-                health: {
-                  // beginAtZero: true,
-                  type: "linear",
-                  position: "right",
-                  grid: {
-                    drawOnChartArea: false,
+    <>
+      <section className="chart">
+        <h1>Total Health & Nutrition Chart</h1>
+        {nutritionResponse && (
+          <div style={{ width: "700px" }}>
+            <Line
+              data={{
+                labels: nutritionResponse
+                  .filter((record) => record.nutrition_type === toggleNutrition)
+                  .map((data) => {
+                    return `Week: ${mySQLdateToWeek(data.created_at)}`; //Week: ${mySQLdateToWeek(data.created_at)} ${mySQLdateToJS(data.created_at)
+                  }),
+                datasets: [
+                  {
+                    label: `${toggleNutrition} Count`,
+                    data: nutritionResponse
+                      .filter(
+                        (record) => record.nutrition_type === toggleNutrition
+                      )
+                      .map((data) => data.nutrition_volume),
+                    borderColor: "#28406fc8",
+                    borderWidth: 3,
+                    tension: 0.4,
+                    yAxisID: "nutrition",
+                  },
+                  {
+                    label: `${toggleHealth} Total`,
+                    data: healthResponse.map((data) => data[toggleHealth]),
+                    borderColor: "#e98d58cd",
+                    borderWidth: 3,
+                    tension: 0.4,
+                    yAxisID: "health",
+                  },
+                ],
+              }}
+              options={{
+                scales: {
+                  nutrition: {
+                    // beginAtZero: true,
+                    type: "linear",
+                    position: "left",
+                  },
+                  health: {
+                    // beginAtZero: true,
+                    type: "linear",
+                    position: "right",
+                    grid: {
+                      drawOnChartArea: false,
+                    },
                   },
                 },
-              },
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Nutrition x Health Data",
+                plugins: {
+                  title: {
+                    display: true,
+                    text: "Nutrition x Health Data",
+                  },
                 },
-              },
+              }}
+              onClick={handleChartClick}
+              ref={chartRef}
+            />
+          </div>
+        )}
+        <h2>Nutrients</h2>
+        <div className="chart__nutrients-btn-wrapper">
+          <button
+            className={
+              toggleNutrition === "Iron" ? "primary-btn" : "secondary-btn"
+            }
+            onClick={(e) => {
+              handleNutritionToggle("Iron");
             }}
-          />
+          >
+            Iron
+          </button>
+          <button
+            className={
+              toggleNutrition === "Zinc" ? "primary-btn" : "secondary-btn"
+            }
+            onClick={(e) => {
+              handleNutritionToggle("Zinc");
+            }}
+          >
+            Zinc
+          </button>
+          <button
+            className={
+              toggleNutrition === "Magnesium" ? "primary-btn" : "secondary-btn"
+            }
+            onClick={(e) => {
+              handleNutritionToggle("Magnesium");
+            }}
+          >
+            Magnesium
+          </button>
+          <button
+            className={
+              toggleNutrition === "Calcium" ? "primary-btn" : "secondary-btn"
+            }
+            onClick={(e) => {
+              handleNutritionToggle("Calcium");
+            }}
+          >
+            Calcium
+          </button>
         </div>
-      )}
-      <h2>Nutrients</h2>
-      <div className="chart__nutrients-btn-wrapper">
-        <button
-          className={
-            toggleNutrition === "Iron" ? "primary-btn" : "secondary-btn"
-          }
-          onClick={(e) => {
-            handleNutritionToggle("Iron");
-          }}
-        >
-          Iron
-        </button>
-        <button
-          className={
-            toggleNutrition === "Zinc" ? "primary-btn" : "secondary-btn"
-          }
-          onClick={(e) => {
-            handleNutritionToggle("Zinc");
-          }}
-        >
-          Zinc
-        </button>
-        <button
-          className={
-            toggleNutrition === "Magnesium" ? "primary-btn" : "secondary-btn"
-          }
-          onClick={(e) => {
-            handleNutritionToggle("Magnesium");
-          }}
-        >
-          Magnesium
-        </button>
-        <button
-          className={
-            toggleNutrition === "Calcium" ? "primary-btn" : "secondary-btn"
-          }
-          onClick={(e) => {
-            handleNutritionToggle("Calcium");
-          }}
-        >
-          Calcium
-        </button>
-      </div>
-      <h2>Health Fields</h2>
-      <div className="chart__health-btn-wrapper">
-        <button
-          className={
-            toggleHealth === "energy" ? "primary-btn" : "secondary-btn"
-          }
-          onClick={(e) => {
-            handleHealthToggle("energy");
-          }}
-        >
-          Energy
-        </button>
-        <button
-          className={toggleHealth === "sleep" ? "primary-btn" : "secondary-btn"}
-          onClick={(e) => {
-            handleHealthToggle("sleep");
-          }}
-        >
-          Sleep
-        </button>
-        <button
-          className={toggleHealth === "mood" ? "primary-btn" : "secondary-btn"}
-          onClick={(e) => {
-            handleHealthToggle("mood");
-          }}
-        >
-          Mood
-        </button>
-      </div>
-    </section>
+        <h2>Health Fields</h2>
+        <div className="chart__health-btn-wrapper">
+          <button
+            className={
+              toggleHealth === "energy" ? "primary-btn" : "secondary-btn"
+            }
+            onClick={(e) => {
+              handleHealthToggle("energy");
+            }}
+          >
+            Energy
+          </button>
+          <button
+            className={
+              toggleHealth === "sleep" ? "primary-btn" : "secondary-btn"
+            }
+            onClick={(e) => {
+              handleHealthToggle("sleep");
+            }}
+          >
+            Sleep
+          </button>
+          <button
+            className={
+              toggleHealth === "mood" ? "primary-btn" : "secondary-btn"
+            }
+            onClick={(e) => {
+              handleHealthToggle("mood");
+            }}
+          >
+            Mood
+          </button>
+        </div>
+      </section>
+      <section className="entries">
+        {healthResponse[selectedEntryIndex] && (
+          <article>
+            <h3>Entry from date:</h3>
+            <span>
+              {mySQLdateToJS(healthResponse[selectedEntryIndex].created_at)}
+            </span>
+            <button onClick={handleToggleWeek}>Toggle Week</button>
+            <ul>
+              <li>Energy: {healthResponse[selectedEntryIndex].energy}</li>
+              <li>Sleep: {healthResponse[selectedEntryIndex].sleep}</li>
+              <li>Mood: {healthResponse[selectedEntryIndex].mood}</li>
+            </ul>
+            <h4>Comment: </h4>
+            <p>{healthResponse[selectedEntryIndex].comment}</p>
+          </article>
+        )}
+
+        {/* for nutrition, need to filter first by the current nutrition toggle THEN grab the index */}
+        {nutritionResponse && (
+          <article>
+            <h3>Nutrition Totals</h3>
+            <p>
+              {
+                nutritionResponse.filter(
+                  (record) => record.nutrition_type === toggleNutrition
+                )[selectedEntryIndex].nutrition_type
+              }
+              :
+              {
+                nutritionResponse.filter(
+                  (record) => record.nutrition_type === toggleNutrition
+                )[selectedEntryIndex].nutrition_volume
+              }
+              mg
+            </p>
+          </article>
+        )}
+      </section>
+      <section>
+        <h3>What you ate</h3>
+        <div className="journal__recipe-wall">
+          {mealPlanRecipes &&
+            mealPlanRecipes.map((recipe) => {
+              return <RecipeCardSmall key={recipe.id} recipe={recipe} />;
+            })}
+        </div>
+      </section>
+    </>
   );
 }
 
