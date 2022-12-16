@@ -1,3 +1,7 @@
+@use "../../../styles/partials/colors.scss" as colors;
+@use "../../../styles/partials/fonts.scss";
+@use "../../../styles/partials/buttons.scss";
+
 .chart {
   padding: 0rem 1rem;
   margin: 2rem 0rem;
@@ -11,5 +15,117 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     width: 80%;
+  }
+
+  &__btn--active {
+    cursor: pointer;
+    color: colors.$white;
+    display: block;
+    font-family: "Rubik";
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.375rem;
+    border: none;
+    border-radius: 1.25rem;
+    background-color: colors.$meta-midnight;
+
+    padding: 0.5rem 1rem;
+    text-align: center;
+    margin: 0rem 0.5rem;
+    width: 7.5rem;
+
+    height: 2.25rem;
+    &:hover {
+      background-color: colors.$meta-peach;
+    }
+  }
+
+  &__btn--inactive {
+    cursor: pointer;
+    display: block;
+    font-weight: 600;
+    color: colors.$white;
+    font-family: "Rubik";
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    border: none;
+    border-radius: 1.25rem;
+    background-color: colors.$meta-peach;
+    height: 2.25rem;
+    width: 7.5rem;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    margin: 0rem 0.5rem;
+
+    &:hover {
+      background-color: colors.$peach-40;
+      color: colors.$meta-midnight;
+    }
+  }
+}
+
+.entries {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0 5rem;
+
+  &__title {
+    grid-column: span 2;
+    text-align: center;
+    button {
+      margin: 1rem auto;
+    }
+  }
+  &__health-data {
+    margin-right: 1rem;
+  }
+}
+
+.mealplan {
+  padding: 0rem 1rem;
+  margin: 2rem 0rem;
+  > h2 {
+    text-align: center;
+  }
+  &__recipe-wall {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  &__recipe-card {
+    display: flex;
+    width: 100%;
+    background-color: #f1eeeb;
+    border-radius: 0.5rem;
+    justify-content: space-between;
+  }
+
+  &__text-wrapper {
+    padding: 1rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    h3 {
+      margin-top: 0px;
+    }
+
+    h4 {
+      margin: 0px;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &__image {
+    width: 40%;
+    border-radius: 0 0.5rem 0.5rem 0;
+    object-fit: cover;
+  }
+
+  &__btn {
+    margin: 0px !important;
+    margin-top: 1rem !important;
   }
 }

@@ -1,0 +1,42 @@
+@use "../../styles/partials/colors.scss" as colors;
+@use "../../styles/partials/fonts.scss";
+
+.recipe {
+  h1 {
+    margin-top: 0rem;
+  }
+  &__image {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__info-wrapper {
+    padding: 2rem;
+  }
+  &__meta-info {
+  }
+  &__buttons {
+    margin-top: 1rem;
+    display: flex;
+  }
+  &__summary {
+    margin-top: 1rem;
+    line-height: 1.5;
+  }
+
+  &__rda {
+    ul {
+      padding-left: 0px;
+      li {
+        list-style-type: none;
+        padding: 0.25rem 0rem;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    &-percent {
+      max-width: 90rem;
+    }
+  }
+}

@@ -1,6 +1,10 @@
 .meal-plan {
-  padding: 0rem 1rem;
-  margin: 2rem 0rem;
+  // padding: 0rem 1rem;
+  // margin: 2rem 0rem;
+
+  h1 {
+    padding: 0rem 1rem;
+  }
 
   &__btn-wrapper {
     display: flex;

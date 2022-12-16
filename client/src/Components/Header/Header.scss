@@ -9,12 +9,16 @@
   background-color: colors.$meta-midnight;
 
   &__logo {
-    color: colors.$white;
     padding: 1.0675rem;
     background-color: colors.$meta-peach;
     font-weight: 600;
     font-size: 1.25rem;
     margin-right: 2rem;
+
+    a {
+      text-decoration: none;
+      color: colors.$white;
+    }
   }
 
   ul {

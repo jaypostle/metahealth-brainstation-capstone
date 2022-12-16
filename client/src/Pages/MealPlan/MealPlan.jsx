@@ -143,7 +143,7 @@ function MealPlan() {
                 handleConfirmMealPlan(e);
               }}
             >
-              Confirm Meal Plan
+              Confirm Plan
             </button>
           </div>
         </div>

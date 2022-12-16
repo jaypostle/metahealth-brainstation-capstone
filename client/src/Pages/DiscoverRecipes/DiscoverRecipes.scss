@@ -34,8 +34,13 @@
     }
   }
 
+  &__meal-type {
+    font-family: "Barlow";
+    font-weight: 600;
+  }
+
   &__fridge-wrapper {
-    padding: 1rem 0rem;
+    padding: 0.5rem 0rem;
     padding-bottom: 0.25rem;
 
     &--checkboxes {

@@ -155,278 +155,285 @@ function Discover() {
   };
 
   return (
-    <section className="discover-recipes">
-      <h1>Discover Recipes</h1>
+    <>
+      <section className="discover-recipes">
+        <h1>Discover Recipes</h1>
 
-      <form
-        className="discover-recipes__form"
-        ref={formRef}
-        onSubmit={handleFormSubmit}
-      >
-        {/*  Select Field */}
-        <label
-          htmlFor="meal-type"
-          className="discover__label discover__label--meal-type"
+        <form
+          className="discover-recipes__form"
+          ref={formRef}
+          onSubmit={handleFormSubmit}
         >
-          Meal Type
-          <select
-            defaultValue={discoverParams.mealType || "Select"}
-            placeholder={discoverParams.mealType || "Select"}
-            name="mealType"
-            id="meal-type"
-            onChange={(e) => {
-              handleChange(e);
-            }}
+          <h4>Primary Search</h4>
+          {/*  Select Field */}
+          <label
+            htmlFor="meal-type"
+            className="discover__label discover__label--meal-type"
           >
-            <option
-              type="text"
+            Meal Type
+            <select
+              defaultValue={discoverParams.mealType || "Select"}
+              placeholder={discoverParams.mealType || "Select"}
+              name="mealType"
               className="discover__meal-type"
-              value="breakfast"
+              id="meal-type"
+              onChange={(e) => {
+                handleChange(e);
+              }}
             >
-              Breakfast
-            </option>
-            <option
-              type="text"
-              className="discover__meal-type"
-              value="appetizer"
-            >
-              Appetizer
-            </option>
-            <option
-              type="text"
-              className="discover__meal-type"
-              value="main course"
-            >
-              Main Course
-            </option>
-            <option type="text" className="discover__meal-type" value="dessert">
-              Dessert
-            </option>
-          </select>
-        </label>
-        <label className="discover__label discover__label--search ">
-          Search
-          <input
-            name="search"
-            type="search"
-            className="discover__search"
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          />
-        </label>
-        <div className="discover__fridge-wrapper">
-          <h4> What's in your fridge</h4>
-          <div className="discover__fridge-wrapper--checkboxes">
-            <label className="discover__label--checkbox">
-              Chicken
-              <input
-                name="discoverFridge"
-                type="checkbox"
-                className="discover-fridge"
-                value="chicken"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Beef
-              <input
-                name="discoverFridge"
-                type="checkbox"
-                className="discover-fridge"
-                value="beef"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Egg
-              <input
-                name="discoverFridge"
-                type="checkbox"
-                className="discover-fridge"
-                value="egg"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Tofu
-              <input
-                name="discoverFridge"
-                type="checkbox"
-                className="discover-fridge"
-                value="tofu"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-          </div>
-          <label className="discover__label discover__label--search">
+              <option
+                type="text"
+                className="discover__meal-type"
+                value="breakfast"
+              >
+                Breakfast
+              </option>
+              <option
+                type="text"
+                className="discover__meal-type"
+                value="appetizer"
+              >
+                Appetizer
+              </option>
+              <option
+                type="text"
+                className="discover__meal-type"
+                value="main course"
+              >
+                Main Course
+              </option>
+              <option
+                type="text"
+                className="discover__meal-type"
+                value="dessert"
+              >
+                Dessert
+              </option>
+            </select>
+          </label>
+          <label className="discover__label discover__label--search ">
             Search
             <input
-              name="fridgeSearch"
+              name="search"
               type="search"
-              className="allergens"
+              className="discover__search"
               onChange={(e) => {
                 handleChange(e);
               }}
             />
           </label>
-        </div>
-        <label className="discover__label">
-          <h4> Dietary Preferences </h4>
-          <div className="discover__dietary-preferences-wrapper--checkboxes">
-            <label className="discover__label--checkbox">
-              Vegan
+          <div className="discover__fridge-wrapper">
+            <h4> What's in your fridge</h4>
+            <div className="discover__fridge-wrapper--checkboxes">
+              <label className="discover__label--checkbox">
+                Chicken
+                <input
+                  name="discoverFridge"
+                  type="checkbox"
+                  className="discover-fridge"
+                  value="chicken"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Beef
+                <input
+                  name="discoverFridge"
+                  type="checkbox"
+                  className="discover-fridge"
+                  value="beef"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Egg
+                <input
+                  name="discoverFridge"
+                  type="checkbox"
+                  className="discover-fridge"
+                  value="egg"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Tofu
+                <input
+                  name="discoverFridge"
+                  type="checkbox"
+                  className="discover-fridge"
+                  value="tofu"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+            </div>
+            <label className="discover__label discover__label--search">
+              Search
               <input
-                name="dietaryPreferences"
-                type="checkbox"
-                className="dietary-preferences"
-                value="vegan"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Vegetarian
-              <input
-                name="dietaryPreferences"
-                type="checkbox"
-                className="dietary-preferences"
-                value="vegetarian"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Gluten-Free
-              <input
-                name="dietaryPreferences"
-                type="checkbox"
+                name="fridgeSearch"
+                type="search"
                 className="allergens"
-                value="gluten-free"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Paleo
-              <input
-                name="dietaryPreferences"
-                type="checkbox"
-                className="dietary-preferences"
-                value="paleo"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Pescetarian
-              <input
-                name="dietaryPreferences"
-                type="checkbox"
-                className="dietary-preferences"
-                value="pescetarian"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Ketogenic
-              <input
-                name="dietaryPreferences"
-                type="checkbox"
-                className="dietary-preferences"
-                value="ketogenic"
-                onClick={handleCheckBoxChange}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
               />
             </label>
           </div>
-        </label>
-        <label className="discover__label">
-          <h4> Allergens</h4>
-          <div className="discover__allergens-wrapper--checkboxes">
-            <label className="discover__label--checkbox">
-              Tree Nuts
-              <input
-                name="allergens"
-                type="checkbox"
-                className="allergens"
-                value="tree nut"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Shellfish
-              <input
-                name="allergens"
-                type="checkbox"
-                className="allergens"
-                value="shellfish"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Dairy
-              <input
-                name="allergens"
-                type="checkbox"
-                className="allergens"
-                value="dairy"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Sesame
-              <input
-                name="allergens"
-                type="checkbox"
-                className="allergens"
-                value="sesame"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Egg
-              <input
-                name="allergens"
-                type="checkbox"
-                className="allergens"
-                value="egg"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Soy
-              <input
-                name="allergens"
-                type="checkbox"
-                className="allergens"
-                value="soy"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-            <label className="discover__label--checkbox">
-              Peanut
-              <input
-                name="allergens"
-                type="checkbox"
-                className="allergens"
-                value="peanut"
-                onClick={handleCheckBoxChange}
-              />
-            </label>
-          </div>
-        </label>
-        {/* Place Sorts here */}
-        {/* Sort by Iron, Salt, Sugar etc */}
-        <button type="submit" className="primary-btn discover__button">
-          Discover
-        </button>
-      </form>
+          <label className="discover__label">
+            <h4> Dietary Preferences </h4>
+            <div className="discover__dietary-preferences-wrapper--checkboxes">
+              <label className="discover__label--checkbox">
+                Vegan
+                <input
+                  name="dietaryPreferences"
+                  type="checkbox"
+                  className="dietary-preferences"
+                  value="vegan"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Vegetarian
+                <input
+                  name="dietaryPreferences"
+                  type="checkbox"
+                  className="dietary-preferences"
+                  value="vegetarian"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Gluten-Free
+                <input
+                  name="dietaryPreferences"
+                  type="checkbox"
+                  className="allergens"
+                  value="gluten-free"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Paleo
+                <input
+                  name="dietaryPreferences"
+                  type="checkbox"
+                  className="dietary-preferences"
+                  value="paleo"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Pescetarian
+                <input
+                  name="dietaryPreferences"
+                  type="checkbox"
+                  className="dietary-preferences"
+                  value="pescetarian"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Ketogenic
+                <input
+                  name="dietaryPreferences"
+                  type="checkbox"
+                  className="dietary-preferences"
+                  value="ketogenic"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+            </div>
+          </label>
+          <label className="discover__label">
+            <h4> Allergens</h4>
+            <div className="discover__allergens-wrapper--checkboxes">
+              <label className="discover__label--checkbox">
+                Tree Nuts
+                <input
+                  name="allergens"
+                  type="checkbox"
+                  className="allergens"
+                  value="tree nut"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Shellfish
+                <input
+                  name="allergens"
+                  type="checkbox"
+                  className="allergens"
+                  value="shellfish"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Dairy
+                <input
+                  name="allergens"
+                  type="checkbox"
+                  className="allergens"
+                  value="dairy"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Sesame
+                <input
+                  name="allergens"
+                  type="checkbox"
+                  className="allergens"
+                  value="sesame"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Egg
+                <input
+                  name="allergens"
+                  type="checkbox"
+                  className="allergens"
+                  value="egg"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Soy
+                <input
+                  name="allergens"
+                  type="checkbox"
+                  className="allergens"
+                  value="soy"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+              <label className="discover__label--checkbox">
+                Peanut
+                <input
+                  name="allergens"
+                  type="checkbox"
+                  className="allergens"
+                  value="peanut"
+                  onClick={handleCheckBoxChange}
+                />
+              </label>
+            </div>
+          </label>
+          {/* Place Sorts here */}
+          {/* Sort by Iron, Salt, Sugar etc */}
+          <button type="submit" className="primary-btn discover__button">
+            Discover
+          </button>
+        </form>
 
-      {failureMessage && <h2>{failureMessage}</h2>}
-
+        {failureMessage && <h2>{failureMessage}</h2>}
+      </section>
       {discoverRecipes && (
         <RecipeWall
           // recipes={recipesSearchResults}
           recipes={discoverRecipes}
         />
       )}
-    </section>
+    </>
   );
 }
 

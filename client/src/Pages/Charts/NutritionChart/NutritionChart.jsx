@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { Line, getElementsAtEvent } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
@@ -244,12 +245,12 @@ function NutritionChart() {
                     },
                   },
                 },
-                plugins: {
-                  title: {
-                    display: true,
-                    text: "Nutrition x Health Data",
-                  },
-                },
+                // plugins: {
+                //   title: {
+                //     display: true,
+                //     text: "Nutrition x Health Data",
+                //   },
+                // },
               }}
               onClick={handleChartClick}
               ref={chartRef}
@@ -260,7 +261,9 @@ function NutritionChart() {
         <div className="chart__nutrients-btn-wrapper">
           <button
             className={
-              toggleNutrition === "Iron" ? "primary-btn" : "secondary-btn"
+              toggleNutrition === "Iron"
+                ? "chart__btn--active"
+                : "chart__btn--inactive"
             }
             onClick={(e) => {
               handleNutritionToggle("Iron");
@@ -270,7 +273,9 @@ function NutritionChart() {
           </button>
           <button
             className={
-              toggleNutrition === "Zinc" ? "primary-btn" : "secondary-btn"
+              toggleNutrition === "Zinc"
+                ? "chart__btn--active"
+                : "chart__btn--inactive"
             }
             onClick={(e) => {
               handleNutritionToggle("Zinc");
@@ -280,7 +285,9 @@ function NutritionChart() {
           </button>
           <button
             className={
-              toggleNutrition === "Magnesium" ? "primary-btn" : "secondary-btn"
+              toggleNutrition === "Magnesium"
+                ? "chart__btn--active"
+                : "chart__btn--inactive"
             }
             onClick={(e) => {
               handleNutritionToggle("Magnesium");
@@ -290,7 +297,9 @@ function NutritionChart() {
           </button>
           <button
             className={
-              toggleNutrition === "Calcium" ? "primary-btn" : "secondary-btn"
+              toggleNutrition === "Calcium"
+                ? "chart__btn--active"
+                : "chart__btn--inactive"
             }
             onClick={(e) => {
               handleNutritionToggle("Calcium");
@@ -303,7 +312,9 @@ function NutritionChart() {
         <div className="chart__health-btn-wrapper">
           <button
             className={
-              toggleHealth === "energy" ? "primary-btn" : "secondary-btn"
+              toggleHealth === "energy"
+                ? "chart__btn--active"
+                : "chart__btn--inactive"
             }
             onClick={(e) => {
               handleHealthToggle("energy");
@@ -313,7 +324,9 @@ function NutritionChart() {
           </button>
           <button
             className={
-              toggleHealth === "sleep" ? "primary-btn" : "secondary-btn"
+              toggleHealth === "sleep"
+                ? "chart__btn--active"
+                : "chart__btn--inactive"
             }
             onClick={(e) => {
               handleHealthToggle("sleep");
@@ -323,7 +336,9 @@ function NutritionChart() {
           </button>
           <button
             className={
-              toggleHealth === "mood" ? "primary-btn" : "secondary-btn"
+              toggleHealth === "mood"
+                ? "chart__btn--active"
+                : "chart__btn--inactive"
             }
             onClick={(e) => {
               handleHealthToggle("mood");
@@ -335,49 +350,98 @@ function NutritionChart() {
       </section>
       <section className="entries">
         {healthResponse[selectedEntryIndex] && (
-          <article>
-            <h3>Entry from date:</h3>
-            <span>
-              {mySQLdateToJS(healthResponse[selectedEntryIndex].created_at)}
-            </span>
-            <button onClick={handleToggleWeek}>Toggle Week</button>
-            <ul>
-              <li>Energy: {healthResponse[selectedEntryIndex].energy}</li>
-              <li>Sleep: {healthResponse[selectedEntryIndex].sleep}</li>
-              <li>Mood: {healthResponse[selectedEntryIndex].mood}</li>
-            </ul>
-            <h4>Comment: </h4>
-            <p>{healthResponse[selectedEntryIndex].comment}</p>
-          </article>
+          <>
+            <div className="entries__title">
+              <h2>
+                Entry from:{" "}
+                <span>
+                  {mySQLdateToJS(healthResponse[selectedEntryIndex].created_at)}
+                </span>
+              </h2>
+
+              <button
+                onClick={handleToggleWeek}
+                className="chart__btn--inactive"
+              >
+                Next Week
+              </button>
+            </div>
+
+            <article className="entries__health">
+              <h4>How you felt:</h4>
+              <div className="entries__health-data-wrapper">
+                <span className="entries__health-data">
+                  Energy: {healthResponse[selectedEntryIndex].energy}
+                </span>
+                <span className="entries__health-data">
+                  Sleep: {healthResponse[selectedEntryIndex].sleep}
+                </span>
+                <span className="entries__health-data">
+                  Mood: {healthResponse[selectedEntryIndex].mood}
+                </span>
+              </div>
+              <h4>Comment: </h4>
+              <p className="entries__comment">
+                {healthResponse[selectedEntryIndex].comment}
+              </p>
+            </article>
+          </>
         )}
 
         {/* for nutrition, need to filter first by the current nutrition toggle THEN grab the index */}
         {nutritionResponse && (
-          <article>
+          <article className="entries__nutrition">
             <h3>Nutrition Totals</h3>
-            <p>
+            <p className="entries__nutrition-type">
               {
                 nutritionResponse.filter(
                   (record) => record.nutrition_type === toggleNutrition
                 )[selectedEntryIndex].nutrition_type
               }
-              :
-              {
-                nutritionResponse.filter(
-                  (record) => record.nutrition_type === toggleNutrition
-                )[selectedEntryIndex].nutrition_volume
-              }
-              mg
+              :{" "}
+              <span className="entries__nutrition-volume">
+                {
+                  nutritionResponse.filter(
+                    (record) => record.nutrition_type === toggleNutrition
+                  )[selectedEntryIndex].nutrition_volume
+                }
+                mg
+              </span>
             </p>
           </article>
         )}
       </section>
-      <section>
-        <h3>What you ate</h3>
-        <div className="journal__recipe-wall">
+      <section className="mealplan">
+        <h2>What you ate:</h2>
+        <div className="mealplan__recipe-wall">
           {mealPlanRecipes &&
             mealPlanRecipes.map((recipe) => {
-              return <RecipeCardSmall key={recipe.id} recipe={recipe} />;
+              return (
+                <article className="mealplan__recipe-card" key={recipe.id}>
+                  {/* time, photo */}
+
+                  <div className="mealplan__text-wrapper">
+                    <h3 className="recipe-card__title"> {recipe.title}</h3>
+                    <div>
+                      <h4>Diets</h4>
+                      {recipe.diets.map((diet, i) => (
+                        <span key={i}>{diet} | </span>
+                      ))}
+                    </div>
+                    <Link
+                      to={`/recipe/${recipe.id}`}
+                      className="recipe-card__view-recipe secondary-btn mealplan__btn"
+                    >
+                      View Recipe
+                    </Link>
+                  </div>
+                  <img
+                    className="mealplan__image"
+                    src={recipe.image}
+                    alt={recipe.title + "image"}
+                  />
+                </article>
+              );
             })}
         </div>
       </section>

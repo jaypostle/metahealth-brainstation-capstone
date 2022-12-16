@@ -10,9 +10,11 @@ function Header() {
   return (
     <header className="header">
       <div className="header__logo">
-        <span>
-          MetaHealth <MdBubbleChart />
-        </span>
+        <Link to="/discover">
+          <span>
+            MetaHealth <MdBubbleChart />
+          </span>
+        </Link>
       </div>
       <ul>
         <li>
