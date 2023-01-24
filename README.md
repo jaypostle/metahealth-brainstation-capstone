@@ -9,6 +9,7 @@ For example, a user can input “I'm a vegetarian, allergic to nuts, and I want 
 Then, you will be asked to track your sleep quality, energy levels, feeling of contentedness, and exercise on a scale of 1-10. Finally, you will be able to visualize those weekly health points alongside what you've been eating. The goal of both sets of data will be to attempt to draw correlations between, for example, increased iron or reduced dairy, higher iron levels with your mood/sleep/happiness. 
 
 Screenshots
+![chart-clicking](https://user-images.githubusercontent.com/50502972/214367542-e3848a74-9484-4ddb-8095-1820be83d0df.gif)
 
 Developer installation instructions
 
