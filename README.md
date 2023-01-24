@@ -33,18 +33,18 @@ PORT = 8080;
 
 
 Seed your data
-Run npx knex seed:run to execute all seed files and add seed data to the database and each table.
+- Run npx knex seed:run to execute all seed files and add seed data to the database and each table.
 
 If you have to create your migrations and tables first:
-For each table, run 'npx knex migrate:make [schema name]' replacing schema name with users, mealplans, nutritiondata, journalentries. But these should already be populated with a clone from GitHub.
+- For each table, run 'npx knex migrate:make [schema name]' replacing schema name with users, mealplans, nutritiondata, journalentries. But these should already be populated with a clone from GitHub.
 
 Start your server
-cd into the server folder
-npm run server
+- cd into the server folder
+- npm run server
 
 Start your client
-cd into the client folder
-npm start
+- cd into the client folder
+- npm start
 
 ## Tech Stack
 Backend built in javascript with node.js/express.js, a MySQL database connected with Knex.js. The frontend was built in React.js with the Chart.js library for charting.
